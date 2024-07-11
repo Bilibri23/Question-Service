@@ -19,4 +19,8 @@ public class QuestionWrapper {
         this.option4 = option4;
         this.questionTitle = questionTitle;
     }
+
+    public QuestionWrapper() {
+
+    }
 }

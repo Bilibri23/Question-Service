@@ -1,6 +1,8 @@
 package com.brian.questionservice.controller;
 
 import com.brian.questionservice.model.Question;
+import com.brian.questionservice.model.QuestionWrapper;
+import com.brian.questionservice.model.Response;
 import com.brian.questionservice.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -43,5 +45,22 @@ public class QuestionController {
     @GetMapping("searchByCategory/{category}")
     public  ResponseEntity<List<Question>> getQuestionByCategory(@PathVariable String category){
         return questionService.searchByCategory(category);
+    }
+    // if question service needs a quiz , it's the job of the question service to
+    //generate it through http request
+    //each microservice will have separate database
+    // each service is independent from the other
+    //no tight coupling
+    @GetMapping("generate")
+    public ResponseEntity<List<Integer>> getQuestionsForQuiz(@RequestParam String categoryName, @RequestParam int numQuestions){
+        return questionService.getQuestionsForQuiz(categoryName,numQuestions);
+    }
+    @PostMapping("getQuestions")
+    public ResponseEntity<List<QuestionWrapper>> getQuestionsFromId(@RequestBody List<Integer> questionIds){
+        return questionService.getQuestionsFromId(questionIds);
+    }
+    @PostMapping("getScore")
+    public ResponseEntity<Integer> getScore(@RequestBody List<Response> responses){
+        return questionService.getScore(responses);
     }
 }
