@@ -5,6 +5,7 @@ import com.brian.questionservice.model.QuestionWrapper;
 import com.brian.questionservice.model.Response;
 import com.brian.questionservice.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,10 @@ public class QuestionController {
     //work with http codes instead
     @Autowired
     private QuestionService questionService;
+    @Autowired
+    private Environment environment;
+
+
     @GetMapping("allQuestions")
     public ResponseEntity<List<Question>> getQuestions(){
         return  questionService.getAllQuestions();
@@ -25,6 +30,7 @@ public class QuestionController {
     }
     @GetMapping("QuestionSpecific/{id}")
     public  ResponseEntity<Optional<Question>> getQuestionByID(@PathVariable int id){
+        System.out.println(environment.getProperty("local.server.port"));
         return questionService.getQuestionByID(id);
     }
     @PostMapping("AddQuestion")
